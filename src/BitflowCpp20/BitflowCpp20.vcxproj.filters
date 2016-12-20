@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Network.cpp" />
+    <ClCompile Include="NetworkLink.cpp" />
+    <ClCompile Include="NetworkNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Network.h" />
+    <ClInclude Include="NetworkLink.h" />
+    <ClInclude Include="NetworkNode.h" />
+    <ClInclude Include="Reflection.h" />
+  </ItemGroup>
+</Project>
