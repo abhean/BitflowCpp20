@@ -36,6 +36,8 @@ using Vector2f = boost::qvm::vec<float, 2>;
 #include <boost/qvm/vec_access.hpp>
 #include <boost/qvm/vec_operations.hpp>
 #include <boost/lexical_cast.hpp>
+#include <mathfu/vector.h>
+#include <units.h>
 #include <ostream>
 #include <istream>
 
@@ -51,6 +53,10 @@ namespace model
 using boost::units::si::length;
 using Length = boost::units::quantity<length, float>;
 using Position = boost::qvm::vec<Length, 2>;
+using Direction = boost::qvm::vec<float, 2>;
+
+using LengthUnit = units::length::meter_t;
+using PositionUnit = boost::qvm::vec<LengthUnit, 2>;
 
 
 using boost::units::si::meter;
@@ -74,11 +80,31 @@ using Bandwidth = boost::units::quantity<bandwidth, float>;
 
 } // namespace bitflow
 
+
+inline bitflow::model::Vector2f value(bitflow::model::Position const& position)
+{
+  return bitflow::model::Vector2f{ X(position).value(), Y(position).value() };
+}
+
+inline bitflow::model::Position operator*(bitflow::model::Direction const& direction, bitflow::model::Length const length)
+{
+  return bitflow::model::Position{ { boost::qvm::X(direction) * length, boost::qvm::Y(direction) * length } };
+}
+
 inline bitflow::model::Position operator*(bitflow::model::Position const& position, float scalar)
 {
   return bitflow::model::Position{ { boost::qvm::X(position) * scalar, boost::qvm::Y(position) * scalar } };
 }
 
+inline bitflow::model::Length mag(bitflow::model::Position const& position)
+{
+  return mag(bitflow::model::Vector2f{ X(position).value(), Y(position).value() }) * bitflow::model::meter;
+}
+
+inline bitflow::model::Direction operator/(bitflow::model::Position const& position, bitflow::model::Length length)
+{
+  return bitflow::model::Direction{ { boost::qvm::X(position) / length, boost::qvm::Y(position) / length } };
+}
 // Units stream operator overloads
 namespace boost { namespace units {
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Types.h"
-#include "Reflection.h"
+#include "foundation/Reflection.h"
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 #include <boost/fusion/support/pair.hpp>
 #include <string>

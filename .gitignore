@@ -2,4 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/src/BitflowCpp20/.vs/BitflowCpp20/v15
+src/BitflowCpp20/.vs/
+src/BitflowCpp20/packages/
+src/BitflowCpp20/Debug/
+3rd/
+bin/assets/

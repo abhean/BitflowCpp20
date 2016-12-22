@@ -2,18 +2,51 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Network.cpp" />
-    <ClCompile Include="NetworkLink.cpp" />
-    <ClCompile Include="NetworkNode.cpp" />
+    <ClCompile Include="bitflow\model\Network.cpp">
+      <Filter>bitflow\model</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\model\NetworkLink.cpp">
+      <Filter>bitflow\model</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\model\NetworkNode.cpp">
+      <Filter>bitflow\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Types.h" />
-    <ClInclude Include="Network.h" />
-    <ClInclude Include="NetworkLink.h" />
-    <ClInclude Include="NetworkNode.h" />
-    <ClInclude Include="Reflection.h" />
+    <Filter Include="bitflow">
+      <UniqueIdentifier>{9e92c385-518e-492e-8644-ebf5b087fd9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bitflow\model">
+      <UniqueIdentifier>{e2c34ade-4f93-4a3d-9566-aaefe101b8de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bitflow\view">
+      <UniqueIdentifier>{83fe4ba8-fccf-4b43-bc2b-abde0e3a7f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="foundation">
+      <UniqueIdentifier>{1fe24f75-4f68-43bf-be51-4b212b6c9919}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bitflow\model\Network.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\NetworkLink.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\NetworkNode.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\Types.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation\Reflection.h">
+      <Filter>foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\view\Network.h">
+      <Filter>bitflow\view</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -148,14 +148,14 @@ private:
 template <typename T>
 struct SetMemberValueFromStrVisitor
 {
-  SetMemberValueFromStrVisitor(std::string_view const& _memberName, std::string _value) : memberName(_memberName), value(_value)
+  SetMemberValueFromStrVisitor(std::string_view const& _memberName, std::string _value) : memberName(_memberName), value_to_set(_value)
   {}
 
   template <typename T> bool value(const char* _name, T& value_) 
   {
     if (memberName == _name)
     {
-      value_ = boost::lexical_cast<T>(value);
+      value_ = boost::lexical_cast<T>(value_to_set);
       return false;
     }
 
@@ -163,5 +163,5 @@ struct SetMemberValueFromStrVisitor
   }
 
   std::string_view memberName;
-  std::string value;
+  std::string value_to_set;
 };

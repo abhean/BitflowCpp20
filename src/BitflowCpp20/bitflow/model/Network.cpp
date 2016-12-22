@@ -202,8 +202,6 @@ bool LoadNetworkFromGraphML(std::experimental::filesystem::path const& path, Net
     std::ifstream graphStream(path);
     if (graphStream.is_open())
     {
-      Network network;
-
       boost::property_tree::ptree graphDocPropertyTree;
       boost::property_tree::xml_parser::read_xml(graphStream, graphDocPropertyTree);
 
@@ -212,19 +210,20 @@ bool LoadNetworkFromGraphML(std::experimental::filesystem::path const& path, Net
       boost::property_tree::ptree graphPropertyTree = graphDocPropertyTree.get_child("graphml.graph"s);
 
       // read nodes
-      lemon::ListDigraph::NodeMap nodeIdMap(network.GetGraph());
+      lemon::ListDigraph::NodeMap<std::string> nodeIdMap(network.GetGraph());
 
       auto nodesRange = graphPropertyTree.equal_range("node"s);
       for (auto nodeIterator = nodesRange.first; nodeIterator != nodesRange.second; ++nodeIterator)
       {
-        NetworkNode node;
+        NetworkNode networkNode;
         
         boost::property_tree::ptree const& nodeTree = nodeIterator->second;
         boost::property_tree::ptree const& nodeTreeXmlAttributes = nodeTree.get_child("<xmlattr>"s);
-        node.Id = nodeTreeXmlAttributes.get<std::string>("id"s);
-        ReadGraphElementDataFromGraphML(graphAttributeDefinitions, nodeTree, node);
+        ReadGraphElementDataFromGraphML(graphAttributeDefinitions, nodeTree, networkNode);
       
-        network.AddNode(node);
+        Network::GraphNode graphNode = network.AddNetworkNode(networkNode);
+
+        nodeIdMap[graphNode] = nodeTreeXmlAttributes.get<std::string>("id"s);
       }
 
       // read edges
@@ -235,12 +234,19 @@ bool LoadNetworkFromGraphML(std::experimental::filesystem::path const& path, Net
         
         boost::property_tree::ptree const& edgeTree = edgeIterator->second;
         boost::property_tree::ptree const& edgeTreeXmlAttributes = edgeTree.get_child("<xmlattr>"s);
-        std::string sourceNode = edgeTreeXmlAttributes.get<std::string>("source"s);
-        std::string targetNode = edgeTreeXmlAttributes.get<std::string>("target"s);
+        std::string const& sourceGraphNodeId = edgeTreeXmlAttributes.get<std::string>("source"s);
+        std::string const& targetGraphNodeId = edgeTreeXmlAttributes.get<std::string>("target"s);
+        std::optional<Network::GraphNode> optSourceGraphNode = network.FindGraphNode([&nodeIdMap, sourceGraphNodeId](Network::GraphNode const& graphNode) { return sourceGraphNodeId == nodeIdMap[graphNode]; });
+        std::optional<Network::GraphNode> optTargetGraphNode = network.FindGraphNode([&nodeIdMap, targetGraphNodeId](Network::GraphNode const& graphNode) { return targetGraphNodeId == nodeIdMap[graphNode]; });
 
-        ReadGraphElementDataFromGraphML(graphAttributeDefinitions, edgeTree, link);
-      
-        network.AddLink(sourceNode, targetNode, link);
+        if (optSourceGraphNode.has_value() && optTargetGraphNode.has_value())
+        {
+          Network::GraphNode const& sourceGraphNode = optSourceGraphNode.value();
+          Network::GraphNode const& targetGraphNode = optTargetGraphNode.value();
+
+          ReadGraphElementDataFromGraphML(graphAttributeDefinitions, edgeTree, link);
+          network.AddNetworkLink(sourceGraphNode, targetGraphNode, link);
+        }
       }
       return true;
     }

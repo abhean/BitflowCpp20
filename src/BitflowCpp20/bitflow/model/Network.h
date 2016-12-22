@@ -15,6 +15,9 @@ class Network
 {
 public:
 
+  using GraphNode = lemon::ListDigraph::Node;
+  using GraphArc = lemon::ListDigraph::Arc;
+
   Network()
     : m_graph()
     , m_nodeMap(m_graph)
@@ -22,39 +25,70 @@ public:
   {
   }
 
-  void AddNode(NetworkNode const& node)
+  GraphNode AddNetworkNode(NetworkNode const& node)
   {
-    lemon::ListDigraph::Node newNode = m_graph.addNode();
+    GraphNode newNode = m_graph.addNode();
     m_nodeMap[newNode] = node;
+
+    return newNode;
   }
 
-  void AddLink(std::string_view const& sourceNodeName, std::string_view const& targetNodeName, NetworkLink const& link)
+  GraphArc AddNetworkLink(GraphNode const& sourceNode, GraphNode const& targetNode, NetworkLink const& link)
   {
-    std::optional<lemon::ListDigraph::Node> source = FindNode(sourceNodeName);
-    std::optional<lemon::ListDigraph::Node> target = FindNode(targetNodeName);
+    GraphArc newArc = m_graph.addArc(sourceNode, targetNode);
+    m_arcMap[newArc] = link;
 
-    if (source.has_value() && target.has_value())
-    {
-      lemon::ListDigraph::Arc newArc = m_graph.addArc(source.value(), target.value());
-      m_arcMap[newArc] = link;
-    }
+    return newArc;
   }
 
-  std::optional<lemon::ListDigraph::Node> FindNode(std::string_view const& id)
+  template <typename Function>
+  void ForEachNetworkNode(Function const& function)
   {
     lemon::ListDigraph::Node node;
     for (m_graph.first(node); m_graph.valid(node); m_graph.next(node))
     {
-      if (m_nodeMap[node].Id == id)
+      function(m_nodeMap[node]);
+    }
+  }
+
+  template <typename Function>
+  void ForEachNetworkNode(Function const& function) const
+  {
+    GraphNode graphNode;
+    for (m_graph.first(graphNode); m_graph.valid(graphNode); m_graph.next(graphNode))
+    {
+      function(m_nodeMap[graphNode]);
+    }
+  }
+
+  template <typename function>
+  void ForEachNetworkLink(function const& function) const
+  {
+    GraphArc graphArc;
+    for (m_graph.first(graphArc); m_graph.valid(graphArc); m_graph.next(graphArc))
+    {
+      function(m_nodeMap[m_graph.source(graphArc)], m_nodeMap[m_graph.target(graphArc)], m_arcMap[graphArc]);
+    }
+  }
+
+  // graph representation functions
+  lemon::ListDigraph& GetGraph() { return m_graph;  }
+
+  template <typename Predicate>
+  std::optional<GraphNode> FindGraphNode(Predicate const& predicate) const
+  {
+    lemon::ListDigraph::Node node;
+    for (m_graph.first(node); m_graph.valid(node); m_graph.next(node))
+    {
+      if (predicate(node))
       {
         return std::make_optional(node);
       }
     }
 
-    return std::optional<lemon::ListDigraph::Node>();
+    return std::optional<GraphNode>();
   }
 
-  lemon::ListDigraph& GetGraph() { return m_graph;  }
 
 private:
 
