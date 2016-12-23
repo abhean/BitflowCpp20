@@ -11,6 +11,9 @@
     <ClCompile Include="bitflow\model\NetworkNode.cpp">
       <Filter>bitflow\model</Filter>
     </ClCompile>
+    <ClCompile Include="bitflow\view\Network.cpp">
+      <Filter>bitflow\view</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

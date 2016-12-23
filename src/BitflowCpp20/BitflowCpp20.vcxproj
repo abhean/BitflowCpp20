@@ -92,6 +92,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PreprocessorDefinitions>_HAS_AUTO_PTR_ETC=1;MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <PostBuildEvent>
       <Command>cd $(ProjectDir)..\..
@@ -124,6 +125,7 @@ CompileAssets.bat</Command>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PreprocessorDefinitions>_HAS_AUTO_PTR_ETC=1;MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -158,6 +160,7 @@ CompileAssets.bat</Command>
     <ClCompile Include="bitflow\model\Network.cpp" />
     <ClCompile Include="bitflow\model\NetworkLink.cpp" />
     <ClCompile Include="bitflow\model\NetworkNode.cpp" />
+    <ClCompile Include="bitflow\view\Network.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
