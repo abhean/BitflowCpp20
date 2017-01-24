@@ -3,22 +3,21 @@
 #define USE_BOOST_UNITS 1
 
 #include <boost/qvm/vec.hpp>
+#include <boost/qvm/vec_access.hpp>
+#include <boost/qvm/vec_operations.hpp>
+#include <boost/lexical_cast.hpp>
 #include <cstdint>
+#include <istream>
 #include <ostream>
 
-namespace bitflow
-{
-
-namespace model
+namespace bitflow::model
 {
 
 // Math
 using Vector3f = boost::qvm::vec<float, 3>;
 using Vector2f = boost::qvm::vec<float, 2>;
 
-
-} // namespace model
-} // namespace bitflow
+} // namespace bitflow::model
 
 //inline std::ostream& operator<<(std::ostream& out, bitflow::model::Vector3f v)
 //{
@@ -30,56 +29,53 @@ using Vector2f = boost::qvm::vec<float, 2>;
 #include "boost/units/quantity.hpp"
 #include "boost/units/systems/si/length.hpp"
 #include "boost/units/systems/si/time.hpp"
+#include "boost/units/systems/si/velocity.hpp"
 #include "boost/units/systems/information/bit.hpp"
-#include "boost/units/systems/information/byte.hpp"
-#include "boost/mpl/divides.hpp"
-#include <boost/qvm/vec_access.hpp>
-#include <boost/qvm/vec_operations.hpp>
-#include <boost/lexical_cast.hpp>
-#include <mathfu/vector.h>
-#include <units.h>
-#include <ostream>
-#include <istream>
+#include "boost/units/static_constant.hpp"
+#include "boost/units/make_scaled_unit.hpp"
+#include "boost/units/static_rational.hpp"
 
-
-namespace bitflow
+namespace bitflow::model
 {
-
-
-namespace model
-{
-
 // Distance / size / position
 using boost::units::si::length;
+using boost::units::si::meter;
+
 using Length = boost::units::quantity<length, float>;
 using Position = boost::qvm::vec<Length, 2>;
 using Direction = boost::qvm::vec<float, 2>;
 
-using LengthUnit = units::length::meter_t;
-using PositionUnit = boost::qvm::vec<LengthUnit, 2>;
+// Velocity
+using boost::units::si::velocity;
+using boost::units::si::meters_per_second;
 
-
-using boost::units::si::meter;
+using Velocity = boost::units::quantity<velocity, float>;
 
 // Time
 using boost::units::si::time;
+using boost::units::si::second;
+using millisecond_unit = boost::units::make_scaled_unit < time, boost::units::scale<10, boost::units::static_rational<-3>> >::type;
+using microsecond_unit = boost::units::make_scaled_unit < time, boost::units::scale<10, boost::units::static_rational<-6>> >::type;
+using nanosecond_unit = boost::units::make_scaled_unit<time, boost::units::scale<10, boost::units::static_rational<-9>> >::type;
+BOOST_UNITS_STATIC_CONSTANT(millisecond, millisecond_unit);
+BOOST_UNITS_STATIC_CONSTANT(microsecond, microsecond_unit);
+BOOST_UNITS_STATIC_CONSTANT(nanosecond, nanosecond_unit);
+
 using Time = boost::units::quantity<time, float>;
 
 // Information
-using boost::units::information::info;
-using InfoAmount = boost::units::quantity<info, std::uint32_t>;
-
-using boost::units::information::bit;
+using info = boost::units::information::info;
 using boost::units::information::byte;
 
+using Info = boost::units::quantity<info, float>;
 
-using bandwidth = boost::mpl::divides<boost::units::information_dimension, boost::units::time_dimension>::type;
+// Information rate
+using bandwidth_dimension = boost::units::derived_dimension<boost::units::information_base_dimension, 1, boost::units::time_base_dimension, -1>::type;
+using bandwidth = boost::units::unit < bandwidth_dimension, boost::units::information::system >;
+BOOST_UNITS_STATIC_CONSTANT(bytes_per_second, bandwidth);
 using Bandwidth = boost::units::quantity<bandwidth, float>;
 
-} // namespace model
-
-} // namespace bitflow
-
+} // namespace bitflow::model
 
 inline bitflow::model::Vector2f value(bitflow::model::Position const& position)
 {
@@ -106,7 +102,7 @@ inline bitflow::model::Direction operator/(bitflow::model::Position const& posit
   return bitflow::model::Direction{ { boost::qvm::X(position) / length, boost::qvm::Y(position) / length } };
 }
 // Units stream operator overloads
-namespace boost { namespace units {
+namespace boost::units {
 
 inline std::ostream& operator<<(std::ostream& out, bitflow::model::Length const& length)
 {
@@ -122,13 +118,27 @@ inline std::istream& operator>>(std::istream& in, bitflow::model::Length& length
   return in;
 }
 
-inline std::ostream& operator<<(std::ostream& out, bitflow::model::InfoAmount const& infoAmount)
+inline std::ostream& operator<<(std::ostream& out, bitflow::model::Velocity const& velocity)
 {
-  return out << infoAmount.value() << " bytes";
+  return out << velocity.value();
+}
+
+inline std::istream& operator>>(std::istream& in, bitflow::model::Velocity& velocity)
+{
+  typename bitflow::model::Velocity::value_type value;
+  in >> value;
+  velocity = value * bitflow::model::meters_per_second;
+
+  return in;
+}
+
+inline std::ostream& operator<<(std::ostream& out, bitflow::model::Info const& infoAmount)
+{
+  return out << infoAmount.value();
 }
 //
 
-inline std::istream& operator>>(std::istream& in, bitflow::model::InfoAmount& infoAmount)
+inline std::istream& operator>>(std::istream& in, bitflow::model::Info& infoAmount)
 {
   float value;
   in >> value;
@@ -137,9 +147,52 @@ inline std::istream& operator>>(std::istream& in, bitflow::model::InfoAmount& in
   return in;
 }
 
-} } // namespace boost::units
+inline std::ostream& operator<<(std::ostream& out, bitflow::model::Bandwidth const& bandwidth)
+{
+  return out << bandwidth.value();
+}
+//
 
-namespace boost { namespace qvm {
+inline std::istream& operator>>(std::istream& in, bitflow::model::Bandwidth& bandwidth)
+{
+  float value;
+  in >> value;
+  bandwidth = value * bitflow::model::bytes_per_second;
+
+  return in;
+}
+
+} // namespace boost::units
+
+#else
+
+namespace bitflow::model
+{
+// Distance / size / position
+using Length = float;
+using Position = Vector3f;
+
+Length const meter = 1.0f;
+
+// Time
+using Time = float;
+
+Time const second = 1.0f;
+
+// Information
+using InfoAmount = std::uint32_t;
+
+InfoAmount const bit = 1;
+InfoAmount const byte = 8;
+
+using Bandwidth = float;
+
+} // namespace bitflow::model
+
+#endif
+
+namespace boost::qvm
+{
 
 inline std::ostream& operator<<(std::ostream& out, bitflow::model::Position const& position)
 {
@@ -165,32 +218,4 @@ inline std::istream& operator>>(std::istream& in, bitflow::model::Position& posi
   return in;
 }
 
-} } // namespace boost::qvm
-
-#else
-
-namespace bitflow
-{
-// Distance / size / position
-typedef float Length;
-typedef Vector3f Position;
-
-Length const meter = 1.0f;
-
-// Time
-typedef float Time;
-
-Time const second = 1.0f;
-
-// Information
-typedef std::uint32_t InfoAmount;
-
-InfoAmount const bit = 1;
-InfoAmount const byte = 8;
-
-typedef float Bandwidth;
-
-} // namespace bitflow
-
-#endif
-
+} // namespace boost::qvm

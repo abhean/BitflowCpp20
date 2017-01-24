@@ -15,7 +15,7 @@
   <key attr.name="Bandwidth" attr.type="double" for="edge" id="d9">
     <default>0.0</default>
   </key>
-  <key attr.name="Latency" attr.type="double" for="edge" id="d10">
+  <key attr.name="PropagationVelocity" attr.type="double" for="edge" id="d10">
     <default>0.0</default>
   </key>
   <key attr.name="url" attr.type="string" for="edge" id="d11"/>
@@ -25,7 +25,6 @@
     <data key="d0"/>
     <node id="n0">
       <data key="d4">10.0</data>
-      <data key="d6"/>
       <data key="d7">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="30.0" x="88.0" y="80.0"/>
@@ -45,7 +44,6 @@
     </node>
     <node id="n1">
       <data key="d4">20.0</data>
-      <data key="d6"/>
       <data key="d7">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="30.0" x="246.0" y="120.0"/>
@@ -66,7 +64,6 @@
     <node id="n2">
       <data key="d4">30.0</data>
       <data key="d5"/>
-      <data key="d6"/>
       <data key="d7">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="30.0" x="246.0" y="236.0"/>
@@ -86,8 +83,7 @@
     </node>
     <edge id="e0" source="n0" target="n1">
       <data key="d9">1000000.0</data>
-      <data key="d10">5.0</data>
-      <data key="d12"/>
+      <data key="d10">1.0</data>
       <data key="d13">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -99,8 +95,7 @@
     </edge>
     <edge id="e1" source="n1" target="n2">
       <data key="d9">1000000.0</data>
-      <data key="d10">5.0</data>
-      <data key="d12"/>
+      <data key="d10">1.0</data>
       <data key="d13">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

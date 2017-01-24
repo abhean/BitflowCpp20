@@ -9,16 +9,17 @@
 namespace bitflow::model
 {
 
-struct NetworkNode
+struct Node
 {
   Position Position;
-  InfoAmount Capacity;
+  Info Capacity;
 };
 
 } // namespace bitflow::model
 
-BOOST_FUSION_ADAPT_STRUCT(
-  bitflow::model::NetworkNode,
+BOOST_FUSION_ADAPT_STRUCT
+(
+  bitflow::model::Node,
   Position,
   Capacity
 )

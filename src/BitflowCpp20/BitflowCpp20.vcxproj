@@ -72,12 +72,12 @@
     <IncludePath>E:\Development\BitflowCpp20\3rd\lemon-1.3.1;E:\Development\BitflowCpp20\3rd\boost_1_62_0\boost_1_62_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Development\BitflowCpp20\3rd\mathfu\include;E:\Development\BitflowCpp20\3rd\units\include;E:\Development\BitflowCpp20\3rd\x32\SFML-2.4.1\include;E:\Development\BitflowCpp20\3rd\lemon-1.3.1;E:\Development\BitflowCpp20\3rd\spdlog\include;E:\Development\BitflowCpp20\3rd\boost_1_62_0;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Development\BitflowCpp20\3rd\lemon-1.3.1-build\lemon\Debug;E:\Development\BitflowCpp20\3rd\x32\SFML-2.4.1\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\abhea\Documents\BitflowCpp20\3rd\mathfu\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\units\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1;C:\Users\abhea\Documents\BitflowCpp20\3rd\spdlog\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\boost_1_62_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1-build\lemon\Debug;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\Development\BitflowCpp20\3rd\mathfu\include;E:\Development\BitflowCpp20\3rd\units\include;E:\Development\BitflowCpp20\3rd\lemon-1.3.1;E:\Development\BitflowCpp20\3rd\spdlog\include;E:\Development\BitflowCpp20\3rd\boost_1_62_0\boost_1_62_0;E:\Development\BitflowCpp20\3rd\x32\SFML-2.4.1\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Development\BitflowCpp20\3rd\x32\SFML-2.4.1\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\abhea\Documents\BitflowCpp20\3rd\mathfu\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\units\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1;C:\Users\abhea\Documents\BitflowCpp20\3rd\spdlog\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\boost_1_62_0\boost_1_62_0;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>E:\Development\BitflowCpp20\3rd\lemon-1.3.1;E:\Development\BitflowCpp20\3rd\boost_1_62_0;$(IncludePath)</IncludePath>
@@ -157,21 +157,35 @@ CompileAssets.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bitflow\model\Agent.cpp" />
+    <ClCompile Include="bitflow\model\Frame.cpp" />
+    <ClCompile Include="bitflow\model\Link.cpp" />
     <ClCompile Include="bitflow\model\Network.cpp" />
-    <ClCompile Include="bitflow\model\NetworkLink.cpp" />
-    <ClCompile Include="bitflow\model\NetworkNode.cpp" />
-    <ClCompile Include="bitflow\view\Network.cpp" />
+    <ClCompile Include="bitflow\model\Node.cpp" />
+    <ClCompile Include="bitflow\model\SerializationGraphML.cpp" />
+    <ClCompile Include="bitflow\model\World.cpp" />
+    <ClCompile Include="bitflow\view\AgentView.cpp" />
+    <ClCompile Include="bitflow\view\NetworkView.cpp" />
+    <ClCompile Include="bitflow\view\WorldView.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bitflow\model\Agent.h" />
+    <ClInclude Include="bitflow\model\Frame.h" />
+    <ClInclude Include="bitflow\model\Link.h" />
     <ClInclude Include="bitflow\model\Network.h" />
-    <ClInclude Include="bitflow\model\NetworkLink.h" />
-    <ClInclude Include="bitflow\model\NetworkNode.h" />
+    <ClInclude Include="bitflow\model\NetworkDefs.h" />
+    <ClInclude Include="bitflow\model\Node.h" />
+    <ClInclude Include="bitflow\model\SerializationGraphML.h" />
     <ClInclude Include="bitflow\model\Types.h" />
-    <ClInclude Include="bitflow\view\Network.h" />
+    <ClInclude Include="bitflow\model\World.h" />
+    <ClInclude Include="bitflow\view\AgentView.h" />
+    <ClInclude Include="bitflow\view\ViewUtils.h" />
+    <ClInclude Include="bitflow\view\NetworkView.h" />
+    <ClInclude Include="bitflow\view\WorldView.h" />
     <ClInclude Include="foundation\Reflection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

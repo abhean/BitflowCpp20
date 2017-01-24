@@ -1,4 +1,4 @@
-#include "NetworkNode.h"
+#include "Node.h"
 
 namespace bitflow::model
 {

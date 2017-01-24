@@ -1,0 +1,10 @@
+﻿  Agent.cpp
+e:\development\bitflowcpp20\src\bitflowcpp20\bitflow\model\Types.h(5): fatal error C1083: Cannot open include file: 'boost/qvm/vec.hpp': No such file or directory
+  Network.cpp
+e:\development\bitflowcpp20\src\bitflowcpp20\bitflow\model\Types.h(5): fatal error C1083: Cannot open include file: 'boost/qvm/vec.hpp': No such file or directory
+  NetworkLink.cpp
+e:\development\bitflowcpp20\src\bitflowcpp20\bitflow\model\Types.h(5): fatal error C1083: Cannot open include file: 'boost/qvm/vec.hpp': No such file or directory
+  NetworkNode.cpp
+e:\development\bitflowcpp20\src\bitflowcpp20\bitflow\model\Types.h(5): fatal error C1083: Cannot open include file: 'boost/qvm/vec.hpp': No such file or directory
+  World.cpp
+e:\development\bitflowcpp20\src\bitflowcpp20\bitflow\model\Types.h(5): fatal error C1083: Cannot open include file: 'boost/qvm/vec.hpp': No such file or directory

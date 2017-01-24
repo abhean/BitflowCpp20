@@ -5,13 +5,31 @@
     <ClCompile Include="bitflow\model\Network.cpp">
       <Filter>bitflow\model</Filter>
     </ClCompile>
-    <ClCompile Include="bitflow\model\NetworkLink.cpp">
+    <ClCompile Include="bitflow\model\World.cpp">
       <Filter>bitflow\model</Filter>
     </ClCompile>
-    <ClCompile Include="bitflow\model\NetworkNode.cpp">
+    <ClCompile Include="bitflow\model\Agent.cpp">
       <Filter>bitflow\model</Filter>
     </ClCompile>
-    <ClCompile Include="bitflow\view\Network.cpp">
+    <ClCompile Include="bitflow\view\NetworkView.cpp">
+      <Filter>bitflow\view</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\view\WorldView.cpp">
+      <Filter>bitflow\view</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\model\Frame.cpp">
+      <Filter>bitflow\model</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\model\Node.cpp">
+      <Filter>bitflow\model</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\model\Link.cpp">
+      <Filter>bitflow\model</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\model\SerializationGraphML.cpp">
+      <Filter>bitflow\model</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\view\AgentView.cpp">
       <Filter>bitflow\view</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,19 +54,43 @@
     <ClInclude Include="bitflow\model\Network.h">
       <Filter>bitflow\model</Filter>
     </ClInclude>
-    <ClInclude Include="bitflow\model\NetworkLink.h">
-      <Filter>bitflow\model</Filter>
-    </ClInclude>
-    <ClInclude Include="bitflow\model\NetworkNode.h">
-      <Filter>bitflow\model</Filter>
-    </ClInclude>
     <ClInclude Include="bitflow\model\Types.h">
       <Filter>bitflow\model</Filter>
     </ClInclude>
     <ClInclude Include="foundation\Reflection.h">
       <Filter>foundation</Filter>
     </ClInclude>
-    <ClInclude Include="bitflow\view\Network.h">
+    <ClInclude Include="bitflow\model\Agent.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\World.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\NetworkDefs.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\Frame.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\view\NetworkView.h">
+      <Filter>bitflow\view</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\view\ViewUtils.h">
+      <Filter>bitflow\view</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\view\WorldView.h">
+      <Filter>bitflow\view</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\Node.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\Link.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\model\SerializationGraphML.h">
+      <Filter>bitflow\model</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\view\AgentView.h">
       <Filter>bitflow\view</Filter>
     </ClInclude>
   </ItemGroup>

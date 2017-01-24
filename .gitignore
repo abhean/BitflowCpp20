@@ -7,3 +7,13 @@ src/BitflowCpp20/packages/
 src/BitflowCpp20/Debug/
 3rd/
 bin/assets/
+/3rd/units/
+/3rd/spdlog/
+/3rd/Range-V3-VS2015/
+/3rd/mathfu/
+/3rd/boost/
+/3rd/boost/
+/3rd/mathfu/
+/3rd/Range-V3-VS2015/
+/3rd/spdlog/
+/3rd/units/
