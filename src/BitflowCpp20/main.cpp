@@ -1,6 +1,9 @@
 #include "bitflow/model/World.h"
 #include "bitflow/model/Types.h"
-#include "bitflow/view/WorldView.h"
+#include "bitflow/draw/DrawManager.h"
+#include "bitflow/draw/DrawWorld.h"
+#include "bitflow/debug/DebugManager.h"
+#include "bitflow/debug/DebugDrawWorld.h"
 #include <spdlog/spdlog.h>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -12,24 +15,30 @@
 
 int main(int const argc, char const** argv)
 {
-  auto console = spdlog::stdout_color_mt("console");
+  // Singletons initialization
+  bitflow::debug::DebugManager::Init();
+  bitflow::draw::DrawManager::Init();
 
+  //
   bitflow::model::World world;
   if (bitflow::model::LoadFromGraphML(world.Network, std::experimental::filesystem::path("assets/test.graphml")))
   {
     // TEST!!
     std::optional<bitflow::model::NetworkLinkHandle> optLinkHandle = world.Network.FindLinkHandle([](bitflow::model::NetworkLinkHandle const&) { return true; });
-    assert(optLinkHandle.has_value());
-    bitflow::model::StartTransfer(world.Network, optLinkHandle.value(), 10000000.0f * bitflow::model::byte);
+    assert(optLinkHandle);
+    bitflow::model::StartTransfer(world.Network, *optLinkHandle, 10000000.0f * bitflow::model::byte);
+
+    std::optional<bitflow::model::NetworkNodeHandle> optNodeHandle = world.Network.FindNodeHandle([](bitflow::model::NetworkNodeHandle const&) { return true; });
+    assert(optNodeHandle);
+    world.Agents.emplace_back(100.0f * bitflow::model::byte, bitflow::model::Agent::InNode{*optNodeHandle});
     // TEST!!
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
-    window.setFramerateLimit(60u);
-    //window.setVerticalSyncEnabled(true);
 
     // run the program as long as the window is open
     sf::Clock Clock;
+    bool drawDebugEnabled = true;
 
+    sf::RenderWindow& window = bitflow::draw::DrawManager::GetInstance().GetRenderWindow();
     while (window.isOpen())
     {
         // check all the window's events that were triggered since the last iteration of the loop
@@ -48,12 +57,21 @@ int main(int const argc, char const** argv)
         // clear the window with black color
         window.clear(sf::Color::Black);
 
-        bitflow::view::Draw(window, world);
+        bitflow::draw::Draw(window, world);
+
+        if (drawDebugEnabled)
+        {
+          bitflow::debug::Draw(world);
+        }
 
         // end the current frame
         window.display();
     }
   }
+
+  // Singletons destruction
+  bitflow::draw::DrawManager::Done();
+  bitflow::debug::DebugManager::Done();
 
   return 0;
 }

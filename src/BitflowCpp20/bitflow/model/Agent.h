@@ -1,14 +1,38 @@
 #pragma once
 
-#include "Network.h"
+#include "NetworkDefs.h"
+#include "Types.h"
+#include <variant>
 
 namespace bitflow::model 
 {
 
 struct Agent
 {
-  NetworkNodeHandle Node;
-  Info Size;
+  struct InNode
+  {
+    NetworkNodeHandle NodeHandle;
+  };
+
+  struct InLink
+  {
+    NetworkLinkHandle LinkHandle;
+  };
+
+  using Location = std::variant<InNode, InLink>;
+
+  Agent(Info const& _size, Location const& _location)
+    : size(_size)
+    , location(_location)
+  { }
+
+  Agent()
+    : size()
+    , location()
+  {}
+
+  Info size;
+  Location location;
 };
  
 using AgentVector = std::vector<Agent>;

@@ -104,6 +104,20 @@ inline bitflow::model::Direction operator/(bitflow::model::Position const& posit
 // Units stream operator overloads
 namespace boost::units {
 
+inline std::ostream& operator<<(std::ostream& out, bitflow::model::Time const& time)
+{
+  return out << time.value();
+}
+
+inline std::istream& operator>>(std::istream& in, bitflow::model::Time& time)
+{
+  typename bitflow::model::Length::value_type value;
+  in >> value;
+  time = value * bitflow::model::second;
+
+  return in;
+}
+
 inline std::ostream& operator<<(std::ostream& out, bitflow::model::Length const& length)
 {
   return out << length.value();

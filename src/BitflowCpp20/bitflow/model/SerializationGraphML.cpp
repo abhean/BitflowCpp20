@@ -1,12 +1,13 @@
 #include "SerializationGraphML.h"
 #include "Network.h"
-#include <iostream>
-#include <any>
+#include "bitflow/debug/DebugManager.h"
 #include <spdlog/spdlog.h>
 #include <boost/graph/graphml.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/fusion/support/pair.hpp>
+#include <iostream>
+#include <any>
 
 using namespace std::string_literals;
 
@@ -118,7 +119,7 @@ struct GraphElemTraits<Node>
 /// @return Graph attributes definitions
 GraphAttributeDefinitions ReadGraphAttributeDefinitionsFromGraphML(boost::property_tree::ptree const& graphDocPropertyTree)
 {
-  auto console = spdlog::get("console");
+  auto& console = debug::DebugManager::GetInstance().GetConsole();
 
   GraphAttributeDefinitions graphAttributeDefinitions;
 
@@ -216,7 +217,7 @@ void ReadGraphElementDataFromGraphML(GraphAttributeDefinitions const& graphAttri
 
 bool LoadFromGraphML(Network& network, std::experimental::filesystem::path const& path)
 {
-  auto console = spdlog::get("console");
+  auto& console = debug::DebugManager::GetInstance().GetConsole();
 
   try
   {

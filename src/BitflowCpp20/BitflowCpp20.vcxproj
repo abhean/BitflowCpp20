@@ -72,8 +72,8 @@
     <IncludePath>E:\Development\BitflowCpp20\3rd\lemon-1.3.1;E:\Development\BitflowCpp20\3rd\boost_1_62_0\boost_1_62_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\abhea\Documents\BitflowCpp20\3rd\mathfu\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\units\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1;C:\Users\abhea\Documents\BitflowCpp20\3rd\spdlog\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\boost_1_62_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1-build\lemon\Debug;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\abhea\Documents\BitflowCpp20\3rd\mathfu\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\units\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1;C:\Users\abhea\Documents\BitflowCpp20\3rd\spdlog\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\fmt;C:\Users\abhea\Documents\BitflowCpp20\3rd\boost_1_62_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1-build\lemon\Debug;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\lib;C:\Users\abhea\Documents\BitflowCpp20\3rd\fmt-build\fmt\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\abhea\Documents\BitflowCpp20\3rd\mathfu\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\units\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\lemon-1.3.1;C:\Users\abhea\Documents\BitflowCpp20\3rd\spdlog\include;C:\Users\abhea\Documents\BitflowCpp20\3rd\boost_1_62_0\boost_1_62_0;C:\Users\abhea\Documents\BitflowCpp20\3rd\x32\SFML-2.4.1\include;$(IncludePath)</IncludePath>
@@ -99,7 +99,7 @@
 CompileAssets.bat</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>lemon.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lemon.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;fmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -157,6 +157,14 @@ CompileAssets.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bitflow\debug\DebugDrawAgent.cpp" />
+    <ClCompile Include="bitflow\debug\DebugDrawNetwork.cpp" />
+    <ClCompile Include="bitflow\debug\DebugManager.cpp" />
+    <ClCompile Include="bitflow\debug\DebugDrawWorld.cpp" />
+    <ClCompile Include="bitflow\draw\DrawAgent.cpp" />
+    <ClCompile Include="bitflow\draw\DrawManager.cpp" />
+    <ClCompile Include="bitflow\draw\DrawNetwork.cpp" />
+    <ClCompile Include="bitflow\draw\DrawWorld.cpp" />
     <ClCompile Include="bitflow\model\Agent.cpp" />
     <ClCompile Include="bitflow\model\Frame.cpp" />
     <ClCompile Include="bitflow\model\Link.cpp" />
@@ -164,15 +172,22 @@ CompileAssets.bat</Command>
     <ClCompile Include="bitflow\model\Node.cpp" />
     <ClCompile Include="bitflow\model\SerializationGraphML.cpp" />
     <ClCompile Include="bitflow\model\World.cpp" />
-    <ClCompile Include="bitflow\view\AgentView.cpp" />
-    <ClCompile Include="bitflow\view\NetworkView.cpp" />
-    <ClCompile Include="bitflow\view\WorldView.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bitflow\debug\DebugDrawAgent.h" />
+    <ClInclude Include="bitflow\debug\DebugDrawNetwork.h" />
+    <ClInclude Include="bitflow\debug\DebugManager.h" />
+    <ClInclude Include="bitflow\debug\DebugConfig.h" />
+    <ClInclude Include="bitflow\debug\DebugDrawWorld.h" />
+    <ClInclude Include="bitflow\draw\DrawAgent.h" />
+    <ClInclude Include="bitflow\draw\DrawManager.h" />
+    <ClInclude Include="bitflow\draw\DrawNetwork.h" />
+    <ClInclude Include="bitflow\draw\DrawUtils.h" />
+    <ClInclude Include="bitflow\draw\DrawWorld.h" />
     <ClInclude Include="bitflow\model\Agent.h" />
     <ClInclude Include="bitflow\model\Frame.h" />
     <ClInclude Include="bitflow\model\Link.h" />
@@ -182,10 +197,7 @@ CompileAssets.bat</Command>
     <ClInclude Include="bitflow\model\SerializationGraphML.h" />
     <ClInclude Include="bitflow\model\Types.h" />
     <ClInclude Include="bitflow\model\World.h" />
-    <ClInclude Include="bitflow\view\AgentView.h" />
-    <ClInclude Include="bitflow\view\ViewUtils.h" />
-    <ClInclude Include="bitflow\view\NetworkView.h" />
-    <ClInclude Include="bitflow\view\WorldView.h" />
+    <ClInclude Include="foundation\FoundationConfig.h" />
     <ClInclude Include="foundation\Reflection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

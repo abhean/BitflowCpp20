@@ -9,12 +9,8 @@ void StartTransfer(Network& network, NetworkLinkHandle const& networkLinkHandle,
 {
   Link& networkLink = network.GetLink(networkLinkHandle);
 
-  Frame const frame = [infoAmount, &networkLink = static_cast<Link const&>(networkLink)] {
-    Length const frameLength{infoAmount / networkLink.GetBandwidth() * networkLink.GetPropagationVelocity()};
-    return Frame{ -frameLength, frameLength };
-  }();
-
-  networkLink.FrameQueue.push_back(frame);
+  Length const frameLength{infoAmount / networkLink.GetBandwidth() * networkLink.GetPropagationVelocity()};
+  networkLink.FrameQueue.emplace_back(-frameLength, frameLength);
 }
 
 ///

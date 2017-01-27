@@ -8,9 +8,9 @@ namespace sf
   class RenderWindow;
 } // namespace sf
 
-namespace bitflow::view
+namespace bitflow::draw
 {
 
 void Draw(sf::RenderWindow& renderWindow, model::World const& world);
 
-} // namespace bitflow::view
+} // namespace bitflow::draw

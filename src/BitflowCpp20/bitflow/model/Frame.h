@@ -15,8 +15,18 @@ namespace bitflow::model
 
 struct Frame
 {
-  Length LinkPos;
-  Length Length;
+  Frame()
+    : linkPos()
+    , length()
+  {}
+
+  Frame(Length const& _linkPos, Length const& _length)
+    : linkPos(_linkPos)
+    , length(_length)
+  {}
+
+  Length linkPos;
+  Length length;
 };
 
 using FrameQueue = std::list<Frame>;

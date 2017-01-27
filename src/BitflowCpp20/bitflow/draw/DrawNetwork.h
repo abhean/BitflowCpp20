@@ -1,5 +1,7 @@
 #pragma once
 
+#include "bitflow/model/Types.h"
+
 // Forward declarations
 namespace sf
 {
@@ -9,10 +11,13 @@ namespace sf
 namespace bitflow::model
 {
   class Network;
+  class Link;
 }
 
-namespace bitflow::view
+namespace bitflow::draw
 {
+
+model::Position GetLinkMiddlePoint(model::Network const& network, model::Link const& link);
 
 void Draw(sf::RenderWindow& renderWindow, model::Network const& network);
 

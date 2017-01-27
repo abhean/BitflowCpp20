@@ -12,7 +12,7 @@ namespace bitflow::model
   class Network;
 }
 
-namespace bitflow::view
+namespace bitflow::draw
 {
 
 void Draw(sf::RenderWindow& renderWindow, model::Network const& network, model::Agent const& agent);

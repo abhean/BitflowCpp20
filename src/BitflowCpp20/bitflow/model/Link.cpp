@@ -11,7 +11,7 @@ void Tick(Link& networkLink, Time const timeDelta)
   {
     Frame& frame = *itFrame;
 
-    Length const nextLinkPos = frame.LinkPos + timeDelta * networkLink.GetPropagationVelocity();
+    Length const nextLinkPos = frame.linkPos + timeDelta * networkLink.GetPropagationVelocity();
     if (nextLinkPos >= networkLink.GetLength())
     {
       itFrame = networkLink.FrameQueue.erase(itFrame);
@@ -19,7 +19,7 @@ void Tick(Link& networkLink, Time const timeDelta)
     }
     else
     {
-      frame.LinkPos = nextLinkPos;
+      frame.linkPos = nextLinkPos;
       
       if (nextLinkPos < 0.0f * meter)
       {

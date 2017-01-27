@@ -11,12 +11,6 @@
     <ClCompile Include="bitflow\model\Agent.cpp">
       <Filter>bitflow\model</Filter>
     </ClCompile>
-    <ClCompile Include="bitflow\view\NetworkView.cpp">
-      <Filter>bitflow\view</Filter>
-    </ClCompile>
-    <ClCompile Include="bitflow\view\WorldView.cpp">
-      <Filter>bitflow\view</Filter>
-    </ClCompile>
     <ClCompile Include="bitflow\model\Frame.cpp">
       <Filter>bitflow\model</Filter>
     </ClCompile>
@@ -29,8 +23,29 @@
     <ClCompile Include="bitflow\model\SerializationGraphML.cpp">
       <Filter>bitflow\model</Filter>
     </ClCompile>
-    <ClCompile Include="bitflow\view\AgentView.cpp">
-      <Filter>bitflow\view</Filter>
+    <ClCompile Include="bitflow\draw\DrawAgent.cpp">
+      <Filter>bitflow\draw</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\draw\DrawNetwork.cpp">
+      <Filter>bitflow\draw</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\draw\DrawWorld.cpp">
+      <Filter>bitflow\draw</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\debug\DebugDrawWorld.cpp">
+      <Filter>bitflow\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\debug\DebugManager.cpp">
+      <Filter>bitflow\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\draw\DrawManager.cpp">
+      <Filter>bitflow\draw</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\debug\DebugDrawNetwork.cpp">
+      <Filter>bitflow\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bitflow\debug\DebugDrawAgent.cpp">
+      <Filter>bitflow\debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,11 +58,14 @@
     <Filter Include="bitflow\model">
       <UniqueIdentifier>{e2c34ade-4f93-4a3d-9566-aaefe101b8de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="bitflow\view">
-      <UniqueIdentifier>{83fe4ba8-fccf-4b43-bc2b-abde0e3a7f5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="foundation">
       <UniqueIdentifier>{1fe24f75-4f68-43bf-be51-4b212b6c9919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bitflow\debug">
+      <UniqueIdentifier>{aa55024e-90ed-4ae3-85a3-30ab7b5f9b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bitflow\draw">
+      <UniqueIdentifier>{83fe4ba8-fccf-4b43-bc2b-abde0e3a7f5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,15 +90,6 @@
     <ClInclude Include="bitflow\model\Frame.h">
       <Filter>bitflow\model</Filter>
     </ClInclude>
-    <ClInclude Include="bitflow\view\NetworkView.h">
-      <Filter>bitflow\view</Filter>
-    </ClInclude>
-    <ClInclude Include="bitflow\view\ViewUtils.h">
-      <Filter>bitflow\view</Filter>
-    </ClInclude>
-    <ClInclude Include="bitflow\view\WorldView.h">
-      <Filter>bitflow\view</Filter>
-    </ClInclude>
     <ClInclude Include="bitflow\model\Node.h">
       <Filter>bitflow\model</Filter>
     </ClInclude>
@@ -90,8 +99,38 @@
     <ClInclude Include="bitflow\model\SerializationGraphML.h">
       <Filter>bitflow\model</Filter>
     </ClInclude>
-    <ClInclude Include="bitflow\view\AgentView.h">
-      <Filter>bitflow\view</Filter>
+    <ClInclude Include="bitflow\draw\DrawAgent.h">
+      <Filter>bitflow\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\draw\DrawNetwork.h">
+      <Filter>bitflow\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\draw\DrawUtils.h">
+      <Filter>bitflow\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\draw\DrawWorld.h">
+      <Filter>bitflow\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\debug\DebugDrawWorld.h">
+      <Filter>bitflow\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="foundation\FoundationConfig.h">
+      <Filter>foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\debug\DebugConfig.h">
+      <Filter>bitflow\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\debug\DebugManager.h">
+      <Filter>bitflow\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\draw\DrawManager.h">
+      <Filter>bitflow\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\debug\DebugDrawNetwork.h">
+      <Filter>bitflow\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bitflow\debug\DebugDrawAgent.h">
+      <Filter>bitflow\debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
