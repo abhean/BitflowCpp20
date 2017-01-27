@@ -4,6 +4,20 @@
 namespace bitflow::model
 {
 
+LinkGeometry GetLinkGeometry(model::Node const& sourceNode, model::Node const& targetNode)
+{
+  LinkGeometry linkGeometry;
+
+  model::Position const linkDelta  = targetNode.Position - sourceNode.Position;
+
+  linkGeometry.length = mag(linkDelta);
+  assert(linkGeometry.length.value() > 0.0f);
+
+  linkGeometry.direction = linkDelta / linkGeometry.length;
+
+  return linkGeometry;
+}
+
 void Tick(Link& networkLink, Time const timeDelta)
 {
   FrameQueue::iterator itFrame = networkLink.FrameQueue.begin();

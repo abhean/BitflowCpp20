@@ -11,6 +11,11 @@ namespace bitflow::draw {
 namespace // unnamed namespace (internal)
 {
 
+// Constants
+float const kLinkArrowLength(10.0f);
+float const kLinkArrowWidth(5.0f);
+
+// Auxiliary functions
 inline float GetNetworkNodeRadius(model::Node const& networkNode)
 {
   float const nodeSurfaceToVisualRadius = 10.0f;
@@ -56,32 +61,29 @@ void DrawNode(sf::RenderWindow& renderWindow, model::Node const& networkNode)
   renderWindow.draw(nodeShape);
 }
 
-void DrawLink(sf::RenderWindow& renderWindow, model::Node const& sourceNetworkNode, model::Node const& targetNetworkNode, model::Link const& networkLink)
-{
-  float const linkArrowLength(10.0f);
-  float const linkArrowWidth(5.0f);
 
-  model::Position const linkDelta  = targetNetworkNode.Position - sourceNetworkNode.Position;
-  model::Length const linkLength = mag(linkDelta);
-  assert(linkLength.value() > 0.0f);
-  model::Direction const linkDir = linkDelta / linkLength;
-  model::Length const linkSideOffset = linkArrowWidth * model::meter;
-  model::Position const linkSideDelta { Y(linkDir) * linkSideOffset, -X(linkDir) * linkSideOffset };
-  model::Length const sourceNetworkNodeVisualRadius = GetNetworkNodeRadius(sourceNetworkNode) * model::meter;
-  model::Length const targetNetworkNodeVisualRadius = GetNetworkNodeRadius(targetNetworkNode) * model::meter;
-  model::Position const linkOrigin = sourceNetworkNode.Position + linkDir * sourceNetworkNodeVisualRadius + linkSideDelta;
-  model::Position const linkTarget = targetNetworkNode.Position - linkDir * targetNetworkNodeVisualRadius + linkSideDelta;
+void DrawLink(sf::RenderWindow& renderWindow, model::Node const& sourceNode, model::Node const& targetNode, model::Link const& networkLink)
+{
+  model::LinkGeometry linkGeometry = model::GetLinkGeometry(sourceNode, targetNode);
+
+  model::Length const linkSideOffset = kLinkArrowWidth * model::meter;
+  model::Position const linkSideDelta { Y(linkGeometry.direction) * linkSideOffset, -X(linkGeometry.direction) * linkSideOffset };
+
+  model::Length const sourceNetworkNodeVisualRadius = GetNetworkNodeRadius(sourceNode) * model::meter;
+  model::Length const targetNetworkNodeVisualRadius = GetNetworkNodeRadius(targetNode) * model::meter;
+  model::Position const linkOrigin = sourceNode.Position + linkGeometry.direction * sourceNetworkNodeVisualRadius + linkSideDelta;
+  model::Position const linkTarget = targetNode.Position - linkGeometry.direction * targetNetworkNodeVisualRadius + linkSideDelta;
 
   DrawLine(renderWindow, sf::Color::White, linkOrigin, linkTarget);
-  DrawArrowEnd(renderWindow, linkTarget, linkDir, linkArrowLength, linkArrowWidth);
+  DrawArrowEnd(renderWindow, linkTarget, linkGeometry.direction, kLinkArrowLength, kLinkArrowWidth);
 
   // Draw frames
-  float const logicLinkToVisualLinkLength = (linkLength - sourceNetworkNodeVisualRadius - targetNetworkNodeVisualRadius) / linkLength;
+  float const logicLinkToVisualLinkLength = (linkGeometry.length - sourceNetworkNodeVisualRadius - targetNetworkNodeVisualRadius) / linkGeometry.length;
 
   for (model::Frame const& frame : networkLink.FrameQueue)
   {
-    model::Position const frameOrigin = linkOrigin + linkDir * (fmax(0.0f, boost::units::quantity_cast<float>(frame.linkPos)) * logicLinkToVisualLinkLength * model::meter);
-    model::Position const frameEnd    = linkOrigin + linkDir * (fmin(boost::units::quantity_cast<float>(networkLink.GetLength()), boost::units::quantity_cast<float>(frame.linkPos + frame.length)) * logicLinkToVisualLinkLength * model::meter);
+    model::Position const frameOrigin = linkOrigin + linkGeometry.direction * (fmax(0.0f, boost::units::quantity_cast<float>(frame.linkPos)) * logicLinkToVisualLinkLength * model::meter);
+    model::Position const frameEnd    = linkOrigin + linkGeometry.direction * (fmin(boost::units::quantity_cast<float>(networkLink.GetLength()), boost::units::quantity_cast<float>(frame.linkPos + frame.length)) * logicLinkToVisualLinkLength * model::meter);
 
     // Normalize position 
     DrawLine(renderWindow, sf::Color::Red, frameOrigin, frameEnd);
@@ -102,9 +104,14 @@ void Draw(sf::RenderWindow& renderWindow, model::Network const& network)
   });
 }
 
-model::Position GetLinkMiddlePoint(model::Network const& network, model::Link const& link)
+model::Position GetLinkMiddlePoint(model::Network const& network, model::Node const& sourceNode, model::Node const& targetNode, model::Link const& link)
 {
+  model::LinkGeometry linkGeometry = model::GetLinkGeometry(sourceNode, targetNode);
 
+  model::Length const linkSideOffset = kLinkArrowWidth * model::meter;
+  model::Position const linkSideDelta { Y(linkGeometry.direction) * linkSideOffset, -X(linkGeometry.direction) * linkSideOffset };
+  
+  return (sourceNode.Position + targetNode.Position) * 0.5f + linkSideDelta;
 }
 
 }

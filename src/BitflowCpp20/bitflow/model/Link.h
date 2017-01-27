@@ -63,6 +63,16 @@ struct LinkBuilder
   Link Build();
 };
 
+// Free functions
+
+// Getters
+struct LinkGeometry
+{
+  model::Length length;
+  model::Direction direction;
+};
+
+LinkGeometry GetLinkGeometry(model::Node const& sourceNode, model::Node const& targetNode);
 
 void Tick(Link& networkLink, Time timeDelta);
 

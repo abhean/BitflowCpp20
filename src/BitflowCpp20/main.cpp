@@ -45,9 +45,28 @@ int main(int const argc, char const** argv)
         sf::Event event;
         while (window.pollEvent(event))
         {
+          switch (event.type)
+          {
             // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                window.close();
+            case sf::Event::Closed:
+            {
+              window.close();
+            }
+            break;
+
+            case sf::Event::KeyPressed:
+            {
+              switch (event.key.code)
+              {
+                case sf::Keyboard::D:
+                {
+                  drawDebugEnabled = !drawDebugEnabled;
+                }
+                break;
+              }
+            }
+            break;
+          }
         }
 
         // Tick simulation

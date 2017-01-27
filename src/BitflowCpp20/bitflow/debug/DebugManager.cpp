@@ -43,8 +43,10 @@ DebugManager& DebugManager::GetInstance()
 void DebugManager::DrawText(model::Position const& position, std::string const& text, int const fontSize)
 {
   sf::Text textShape(text, m_font);
-  textShape.setPosition(draw::PositionToVector2f(position));
   textShape.setCharacterSize(fontSize);
+  sf::FloatRect const textBounds = textShape.getLocalBounds();
+  textShape.setOrigin(textBounds.left + textBounds.width * 0.5f, textBounds.top + textBounds.height * 0.5f);
+  textShape.setPosition(draw::PositionToVector2f(position));
 
   draw::DrawManager::GetInstance().GetRenderWindow().draw(textShape);
 }
