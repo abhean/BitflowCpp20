@@ -8,7 +8,7 @@ namespace bitflow::debug
 
 #if DEBUG_DRAW
 
-void Draw(model::Network const& network, model::AgentVector const& agentVector)
+void DrawAgentVector(model::Network const& network, model::AgentVector const& agentVector)
 {
 
 }

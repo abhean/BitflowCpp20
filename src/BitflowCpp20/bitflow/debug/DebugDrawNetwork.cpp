@@ -26,7 +26,7 @@ void DrawLink(model::Node const& sourceNetworkNode, model::Node const& targetNet
 
 #if DEBUG_DRAW
 
-void Draw(model::Network const& network)
+void DrawNetwork(model::Network const& network)
 {
   network.ForEachNetworkNode(DrawNode);
   network.ForEachNetworkLink(DrawLink);

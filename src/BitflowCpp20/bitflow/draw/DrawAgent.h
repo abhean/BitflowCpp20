@@ -1,5 +1,7 @@
 #pragma once
 
+#include "bitflow/model/Agent.h"
+
 // Forward declarations
 namespace sf
 {
@@ -8,13 +10,12 @@ namespace sf
 
 namespace bitflow::model
 {
-  struct Agent;
   class Network;
 }
 
 namespace bitflow::draw
 {
 
-void Draw(sf::RenderWindow& renderWindow, model::Network const& network, model::Agent const& agent);
+void DrawAgentVector(sf::RenderWindow& renderWindow, model::Network const& network, model::AgentVector const& agentVector);
 
 }

@@ -164,6 +164,7 @@ CompileAssets.bat</Command>
     <ClCompile Include="bitflow\draw\DrawAgent.cpp" />
     <ClCompile Include="bitflow\draw\DrawManager.cpp" />
     <ClCompile Include="bitflow\draw\DrawNetwork.cpp" />
+    <ClCompile Include="bitflow\draw\DrawUtils.cpp" />
     <ClCompile Include="bitflow\draw\DrawWorld.cpp" />
     <ClCompile Include="bitflow\model\Agent.cpp" />
     <ClCompile Include="bitflow\model\Frame.cpp" />

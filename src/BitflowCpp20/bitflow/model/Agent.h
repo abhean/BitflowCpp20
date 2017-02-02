@@ -4,40 +4,47 @@
 #include "Types.h"
 #include <variant>
 
+// Forward declarations
+namespace bitflow::model
+{
+  class Network;
+}
+
+//
 namespace bitflow::model 
 {
 
 struct Agent
 {
-  struct InNode
+  struct Executing
   {
     NetworkNodeHandle NodeHandle;
   };
 
-  struct InLink
+  struct BeingTransferred
   {
     NetworkLinkHandle LinkHandle;
   };
 
-  using Location = std::variant<InNode, InLink>;
+  using State = std::variant<Executing, BeingTransferred>;
 
-  Agent(Info const& _size, Location const& _location)
+  Agent(Info const& _size, State const& _state)
     : size(_size)
-    , location(_location)
+    , state(_state)
   { }
 
   Agent()
     : size()
-    , location()
+    , state()
   {}
 
   Info size;
-  Location location;
+  State state;
 };
  
 using AgentVector = std::vector<Agent>;
 
 ///
-void Update(AgentVector& agentVector);
+void Tick(Network& network, AgentVector& agentVector, Time timeDelta);
 
 }

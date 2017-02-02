@@ -19,6 +19,6 @@ namespace bitflow::draw
 
 model::Position GetLinkMiddlePoint(model::Network const& network, model::Link const& link);
 
-void Draw(sf::RenderWindow& renderWindow, model::Network const& network);
+void DrawNetwork(sf::RenderWindow& renderWindow, model::Network const& network);
 
 }

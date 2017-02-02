@@ -22,15 +22,17 @@ struct GraphAttributeDefinition
   GraphAttributeDefinition()
   {}
 
-  GraphAttributeDefinition(std::string id, std::string name, std::string type)
+  GraphAttributeDefinition(std::string id, std::string name, std::string type, std::string default)
     : Id(id)
     , Name(name)
     , Type(type)
+    , Default(default)
   {}
 
   std::string Id;
   std::string Name;
   std::string Type;
+  std::string Default;
 };
 
 using AttributeDefVector = std::vector<GraphAttributeDefinition>;
@@ -146,9 +148,11 @@ GraphAttributeDefinitions ReadGraphAttributeDefinitionsFromGraphML(boost::proper
       {
         std::string const& name = optName.value();
         std::string const& type = defXmlAttributes.get<std::string>(boost::property_tree::path("attr.type"s, '/'));
-        graphElemAttributeDefinitions.emplace_back(id, name, type);
+        boost::optional<std::string> optDefault = attrDef.get_optional<std::string>(boost::property_tree::path("default"s));
+        std::string const& default = optDefault.value_or(""s);
+        graphElemAttributeDefinitions.emplace_back(id, name, type, default);
 
-        console->info("{}/{}={}::{}", attrFor, id, name, type);
+        console->info("{}/{}={}::{}={}", attrFor, id, name, type, default);
       }
       else
       {
@@ -157,7 +161,7 @@ GraphAttributeDefinitions ReadGraphAttributeDefinitionsFromGraphML(boost::proper
         if (optYFilesType.is_initialized())
         {
           std::string const& yFilesType = optYFilesType.value();
-          graphElemAttributeDefinitions.emplace_back(id, ""s, yFilesType);
+          graphElemAttributeDefinitions.emplace_back(id, ""s, yFilesType, ""s);
           
           console->info("{}/{}=::{}", attrFor, id, yFilesType);
         }
@@ -169,47 +173,58 @@ GraphAttributeDefinitions ReadGraphAttributeDefinitionsFromGraphML(boost::proper
 }
 
 template <typename TGraphElement>
-void ReadGraphElementGenericAttributeFromGraphML(GraphAttributeDefinition const& graphAttributeDefinition, boost::property_tree::ptree const& attributeData, TGraphElement& graphElement_)
+void ReadGraphElementGenericAttributeFromGraphML(GraphAttributeDefinition const& graphAttributeDefinition, boost::optional<boost::property_tree::ptree const&> optAttributeData, TGraphElement& graphElement_)
 {
-  apply_fusion_visitor(SetMemberValueFromStrVisitor<Info>(graphAttributeDefinition.Name, attributeData.data()), graphElement_);
+  std::string const& value = optAttributeData ? optAttributeData->data() : graphAttributeDefinition.Default;
+  apply_fusion_visitor(SetMemberValueFromStrVisitor<Info>(graphAttributeDefinition.Name, value), graphElement_);
 }
 
 template <typename TGraphElement>
-void ReadGraphElementAttributeFromGraphML(GraphAttributeDefinition const& graphAttributeDefinition, boost::property_tree::ptree const& attributeData, TGraphElement& graphElement_)
+void ReadGraphElementAttributeFromGraphML(GraphAttributeDefinition const& graphAttributeDefinition, boost::optional<boost::property_tree::ptree const&> optAttributeData, TGraphElement& graphElement_)
 {
-  ReadGraphElementGenericAttributeFromGraphML(graphAttributeDefinition, attributeData, graphElement_);
+  ReadGraphElementGenericAttributeFromGraphML(graphAttributeDefinition, optAttributeData, graphElement_);
 }
 
 template <>
-void ReadGraphElementAttributeFromGraphML(GraphAttributeDefinition const& graphAttributeDefinition, boost::property_tree::ptree const& attributeData, Node& graphNode_)
+void ReadGraphElementAttributeFromGraphML(GraphAttributeDefinition const& graphAttributeDefinition, boost::optional<boost::property_tree::ptree const&> optAttributeData, Node& graphNode_)
 {
   if (graphAttributeDefinition.Type == "nodegraphics"s)
   {
-    boost::property_tree::ptree const& geometryTreeXmlAttributes = attributeData.get_child("y:ShapeNode.y:Geometry.<xmlattr>"s);
+    assert(optAttributeData);
+    boost::property_tree::ptree const& geometryTreeXmlAttributes = optAttributeData->get_child("y:ShapeNode.y:Geometry.<xmlattr>"s);
     graphNode_.Position = Position{ geometryTreeXmlAttributes.get<float>("x"s) * meter, geometryTreeXmlAttributes.get<float>("y"s) * meter };
   }
   else
   {
-    ReadGraphElementGenericAttributeFromGraphML(graphAttributeDefinition, attributeData, graphNode_);
+    ReadGraphElementGenericAttributeFromGraphML(graphAttributeDefinition, optAttributeData, graphNode_);
   }
 }
 
 template <typename TGraphElement>
 void ReadGraphElementDataFromGraphML(GraphAttributeDefinitions const& graphAttributeDefinitions, boost::property_tree::ptree const& graphElementData, TGraphElement& graphElement_)
 {
-  auto datasRange = graphElementData.equal_range("data"s);
-  for (auto dataIterator = datasRange.first; dataIterator != datasRange.second; ++dataIterator)
-  {
-    boost::property_tree::ptree const& dataTree = dataIterator->second;
-    boost::property_tree::ptree const& dataTreeXmlAttributes = dataTree.get_child("<xmlattr>"s);
-    std::string dataKey = dataTreeXmlAttributes.get<std::string>("key"s);
+  std::size_t const elemTypeIdx = GetElemTypeIdx(GraphElemTraits<TGraphElement>::ElemType);
+  AttributeDefVector const& attributeDefVector = graphAttributeDefinitions[elemTypeIdx];
 
-    std::optional<GraphAttributeDefinition const> optAttributeDefinition = FindGraphAttributeDefinition(graphAttributeDefinitions[GetElemTypeIdx(GraphElemTraits<TGraphElement>::ElemType)], dataKey);
-    if (optAttributeDefinition.has_value())
+  auto datasRange = graphElementData.equal_range("data"s);
+
+  for (GraphAttributeDefinition const& attributeDef : attributeDefVector)
+  {
+    boost::optional<boost::property_tree::ptree const&> attributeDataTree;
+
+    for (auto dataIterator = datasRange.first; dataIterator != datasRange.second; ++dataIterator)
     {
-      GraphAttributeDefinition const& attributeDefinition = optAttributeDefinition.value();
-      ReadGraphElementAttributeFromGraphML(attributeDefinition, dataTree, graphElement_);
+      boost::property_tree::ptree const& dataTree = dataIterator->second;
+      boost::property_tree::ptree const& dataTreeXmlAttributes = dataTree.get_child("<xmlattr>"s);
+      std::string dataKey = dataTreeXmlAttributes.get<std::string>("key"s);
+      if (dataKey == attributeDef.Id)
+      {
+        attributeDataTree = dataTree;
+        break;
+      }
     }
+
+    ReadGraphElementAttributeFromGraphML(attributeDef, attributeDataTree, graphElement_);
   }
 }
 
@@ -247,7 +262,7 @@ bool LoadFromGraphML(Network& network, std::experimental::filesystem::path const
 
         nodeIdMap[graphNode] = nodeTreeXmlAttributes.get<std::string>("id"s);
       }
-
+      
       // read edges
       auto edgesRange = graphPropertyTree.equal_range("edge"s);
       for (auto edgeIterator = edgesRange.first; edgeIterator != edgesRange.second; ++edgeIterator)

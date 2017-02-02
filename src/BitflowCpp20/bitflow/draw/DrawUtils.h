@@ -16,4 +16,7 @@ inline sf::Vector2f DirectionToVector2f(model::Direction const& position)
   return sf::Vector2f{ X(position), Y(position) };
 }
 
+// Auxiliary functions
+float GetInfoAmountVisualRadius(model::Info const& info);
+
 }

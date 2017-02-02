@@ -47,6 +47,9 @@
     <ClCompile Include="bitflow\debug\DebugDrawAgent.cpp">
       <Filter>bitflow\debug</Filter>
     </ClCompile>
+    <ClCompile Include="bitflow\draw\DrawUtils.cpp">
+      <Filter>bitflow\draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

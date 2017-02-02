@@ -2,10 +2,10 @@
 
 namespace bitflow::model {
 
-void Update(World& world)
+void Tick(World& world, Time timeDelta)
 {
-  Update(world.Agents);
-
+  Tick(world.Network, timeDelta);
+  Tick(world.Network, world.Agents, timeDelta);
 }
 
 }

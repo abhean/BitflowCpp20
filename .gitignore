@@ -22,3 +22,13 @@ bin/assets/
 /3rd/Range-V3-VS2015/
 /3rd/mathfu/
 /3rd/boost/
+/bin
+/bin/BitflowCpp20.pdb
+/bin/BitflowCpp20.log
+/bin/BitflowCpp20.ilk
+/bin/BitflowCpp20.exe
+/3rd/units/
+/3rd/spdlog/
+/3rd/Range-V3-VS2015/
+/3rd/fmt/
+/3rd/boost/

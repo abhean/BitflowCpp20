@@ -13,7 +13,7 @@ namespace bitflow::debug
 {
 
 #if DEBUG_DRAW
-void Draw(model::World const& world);
+void DrawWorld(model::World const& world);
 #endif // DEBUG_DRAW
 
 }

@@ -66,14 +66,26 @@ using Time = boost::units::quantity<time, float>;
 // Information
 using info = boost::units::information::info;
 using boost::units::information::byte;
+using kilobytes_unit = boost::units::make_scaled_unit < info, boost::units::scale<10, boost::units::static_rational<3>> >::type;
+using megabytes_unit = boost::units::make_scaled_unit < info, boost::units::scale<10, boost::units::static_rational<6>> >::type;
+using gigabytes_unit = boost::units::make_scaled_unit<info, boost::units::scale<10, boost::units::static_rational<9>> >::type;
+BOOST_UNITS_STATIC_CONSTANT(kilobytes, kilobytes_unit);
+BOOST_UNITS_STATIC_CONSTANT(megabytes, megabytes_unit);
+BOOST_UNITS_STATIC_CONSTANT(gigabytes, gigabytes_unit);
 
 using Info = boost::units::quantity<info, float>;
 
 // Information rate
 using bandwidth_dimension = boost::units::derived_dimension<boost::units::information_base_dimension, 1, boost::units::time_base_dimension, -1>::type;
-using bandwidth = boost::units::unit < bandwidth_dimension, boost::units::information::system >;
-BOOST_UNITS_STATIC_CONSTANT(bytes_per_second, bandwidth);
-using Bandwidth = boost::units::quantity<bandwidth, float>;
+using bandwidth_unit = boost::units::unit < bandwidth_dimension, boost::units::information::system >;
+BOOST_UNITS_STATIC_CONSTANT(bytes_per_second, bandwidth_unit);
+using kilobytes_per_second_unit = boost::units::make_scaled_unit < bandwidth_unit, boost::units::scale<10, boost::units::static_rational<3>> >::type;
+using megabytes_per_second_unit = boost::units::make_scaled_unit < bandwidth_unit, boost::units::scale<10, boost::units::static_rational<6>> >::type;
+using gigabytes_per_second_unit = boost::units::make_scaled_unit<bandwidth_unit, boost::units::scale<10, boost::units::static_rational<9>> >::type;
+BOOST_UNITS_STATIC_CONSTANT(kilobytes_per_second, kilobytes_per_second_unit);
+BOOST_UNITS_STATIC_CONSTANT(megabytes_per_second, megabytes_per_second_unit);
+BOOST_UNITS_STATIC_CONSTANT(gigabytes_per_second, gigabytes_per_second_unit);
+using Bandwidth = boost::units::quantity<bandwidth_unit, float>;
 
 } // namespace bitflow::model
 
@@ -163,7 +175,7 @@ inline std::istream& operator>>(std::istream& in, bitflow::model::Info& infoAmou
 
 inline std::ostream& operator<<(std::ostream& out, bitflow::model::Bandwidth const& bandwidth)
 {
-  return out << bandwidth.value();
+  return out << boost::units::quantity_cast<float>(boost::units::quantity<bitflow::model::megabytes_per_second_unit, float>(bandwidth));
 }
 //
 
@@ -171,7 +183,7 @@ inline std::istream& operator>>(std::istream& in, bitflow::model::Bandwidth& ban
 {
   float value;
   in >> value;
-  bandwidth = value * bitflow::model::bytes_per_second;
+  bandwidth = bitflow::model::Bandwidth(value * bitflow::model::megabytes_per_second);
 
   return in;
 }
@@ -194,10 +206,10 @@ using Time = float;
 Time const second = 1.0f;
 
 // Information
-using InfoAmount = std::uint32_t;
+using Info = std::uint32_t;
 
-InfoAmount const bit = 1;
-InfoAmount const byte = 8;
+Info const bit = 1;
+Info const byte = 8;
 
 using Bandwidth = float;
 

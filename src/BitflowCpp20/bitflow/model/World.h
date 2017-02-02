@@ -14,6 +14,6 @@ public:
   AgentVector Agents;
 };
 
-void Update(World& world);
+void Tick(World& world, Time timeDelta);
 
 }

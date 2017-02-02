@@ -18,8 +18,7 @@ float const kLinkArrowWidth(5.0f);
 // Auxiliary functions
 inline float GetNetworkNodeRadius(model::Node const& networkNode)
 {
-  float const nodeSurfaceToVisualRadius = 10.0f;
-  return nodeSurfaceToVisualRadius * sqrtf(networkNode.Capacity.value() / (boost::math::constants::two_pi<float>()));
+  return GetInfoAmountVisualRadius(networkNode.Capacity);
 }
 
 void DrawLine(sf::RenderWindow& renderWindow, sf::Color const& color, model::Position const& origin, model::Position const& target)
@@ -93,7 +92,7 @@ void DrawLink(sf::RenderWindow& renderWindow, model::Node const& sourceNode, mod
 }// unnamed namespace (internal)
 
 
-void Draw(sf::RenderWindow& renderWindow, model::Network const& network)
+void DrawNetwork(sf::RenderWindow& renderWindow, model::Network const& network)
 {
   network.ForEachNetworkNode([&renderWindow](model::Node const& networkNode) { 
     DrawNode(renderWindow, networkNode); 

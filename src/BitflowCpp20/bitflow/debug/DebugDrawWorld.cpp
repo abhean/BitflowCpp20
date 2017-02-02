@@ -10,10 +10,10 @@ namespace bitflow::debug
 {
 
 #if DEBUG_DRAW
-void Draw(model::World const& world)
+void DrawWorld(model::World const& world)
 {
-  Draw(world.Network);
-  Draw(world.Network, world.Agents);
+  DrawNetwork(world.Network);
+  DrawAgentVector(world.Network, world.Agents);
 }
 #endif // DEBUG_DRAW
 

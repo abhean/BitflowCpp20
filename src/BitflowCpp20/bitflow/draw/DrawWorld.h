@@ -11,6 +11,6 @@ namespace sf
 namespace bitflow::draw
 {
 
-void Draw(sf::RenderWindow& renderWindow, model::World const& world);
+void DrawWorld(sf::RenderWindow& renderWindow, model::World const& world);
 
 } // namespace bitflow::draw
